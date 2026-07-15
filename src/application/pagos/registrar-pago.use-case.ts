@@ -16,7 +16,7 @@ export class RegistrarPagoUseCase {
       await new Promise((resolve) => setTimeout(resolve, 2000));
     }
 
-    if (Math.random() < 0.15) {
+    if (Math.random() < 0.5) {
       throw new Error('Pago fallido');
     }
 
