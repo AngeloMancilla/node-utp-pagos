@@ -8,7 +8,10 @@ import { MetricsService } from './infrastructure/metrics/metrics.service';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
-    origin: 'http://localhost:3000',
+    origin: [
+      process.env.LOCAL_FRONTEND_URL ?? 'http://localhost:3000',
+      process.env.FRONTEND_URL,
+    ].filter(Boolean),
   });
   app.useGlobalInterceptors(
     new HttpMetricsInterceptor(app.get(MetricsService)),
