@@ -68,8 +68,13 @@ export class PagosController {
   async actualizar(@Param('id') id: string, @Body() body: ActualizarPagoDto) {
     try {
       const pago = await this.actualizarPago.execute(id, body);
+      logInfo('Pago actualizado exitosamente', { pagoId: id });
       return pago;
-    } catch {
+    } catch (error) {
+      logError('Error al actualizar el pago', {
+        pagoId: id,
+        cause: error instanceof Error ? error.message : 'unknown',
+      });
       throw new HttpException(
         'Error al actualizar el pago',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -81,11 +86,16 @@ export class PagosController {
   async eliminar(@Param('id') id: string) {
     try {
       await this.eliminarPago.execute(id);
+      logInfo('Pago eliminado exitosamente', { pagoId: id });
       return {
         message: 'Pago eliminado correctamente',
         data: { pagoId: id },
       };
-    } catch {
+    } catch (error) {
+      logError('Error al eliminar el pago', {
+        pagoId: id,
+        cause: error instanceof Error ? error.message : 'unknown',
+      });
       throw new HttpException(
         'Error al eliminar el pago',
         HttpStatus.INTERNAL_SERVER_ERROR,
