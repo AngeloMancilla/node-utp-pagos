@@ -9,12 +9,14 @@ import {
 import { ListarPagosUseCase } from '../../application/pagos/listar-pagos.use-case';
 import { RegistrarPagoUseCase } from '../../application/pagos/registrar-pago.use-case';
 import { CrearPagoDto } from './dto/crear-pago.dto';
+import { MetricsService } from '../../infrastructure/metrics/metrics.service';
 
 @Controller('api/pagos')
 export class PagosController {
   constructor(
     private readonly listarPagos: ListarPagosUseCase,
     private readonly registrarPago: RegistrarPagoUseCase,
+    private readonly metrics: MetricsService,
   ) {}
 
   @Get()
@@ -25,11 +27,13 @@ export class PagosController {
   @Post()
   async crear(@Body() body: CrearPagoDto) {
     try {
+      this.metrics.incrementarPago('success');
       return await this.registrarPago.execute({
         estudianteId: body.estudianteId,
         monto: body.monto,
       });
     } catch {
+      this.metrics.incrementarPago('error');
       throw new HttpException(
         'Error al procesar el pago',
         HttpStatus.INTERNAL_SERVER_ERROR,
