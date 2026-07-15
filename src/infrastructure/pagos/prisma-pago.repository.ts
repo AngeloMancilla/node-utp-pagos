@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import {
+  ActualizarPago,
   CrearPago,
   EstadoPago,
   PagoEstudiante,
@@ -37,6 +38,27 @@ export class PrismaPagoRepository implements PagoRepository {
     });
 
     return this.toDomain(row);
+  }
+
+  async actualizar(id: string, data: ActualizarPago): Promise<PagoEstudiante> {
+    const row = await this.prisma.pago.update({
+      where: { id },
+      data: {
+        ...(data.estado !== undefined && { estado: data.estado }),
+        ...(data.monto !== undefined && { monto: data.monto }),
+      },
+      include: {
+        estudiante: true,
+      },
+    });
+
+    return this.toDomain(row);
+  }
+
+  async eliminar(id: string): Promise<void> {
+    await this.prisma.pago.delete({
+      where: { id },
+    });
   }
 
   private toDomain(p: {
