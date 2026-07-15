@@ -3,8 +3,10 @@ import { RegistrarPagoUseCase } from '../../application/pagos/registrar-pago.use
 import { PrismaPagoRepository } from '../../infrastructure/pagos/prisma-pago.repository';
 import { PAGO_REPOSITORY } from '../../domain/Pago/PagoRepository';
 import { ListarPagosUseCase } from '../../application/pagos/listar-pagos.use-case';
+import { PagosController } from './pagos.controller';
 
 @Module({
+  controllers: [PagosController],
   providers: [
     ListarPagosUseCase,
     RegistrarPagoUseCase,
