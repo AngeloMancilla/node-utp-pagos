@@ -13,6 +13,13 @@ import { ListarPagosUseCase } from '../../application/pagos/listar-pagos.use-cas
 import { RegistrarPagoUseCase } from '../../application/pagos/registrar-pago.use-case';
 import { CrearPagoDto } from './dto/crear-pago.dto';
 import { MetricsService } from '../../infrastructure/metrics/metrics.service';
+import {
+  logError,
+  logInfo,
+} from '../../infrastructure/observability/app-logger';
+import { ActualizarPagosUseCase } from '../../application/pagos/actualizar-pagos.use-case';
+import { EliminarPagoUseCase } from '../../application/pagos/eliminar-pago.use-case';
+import { ActualizarPagoDto } from './dto/actualizar-pago.dto';
 
 @Controller('api/pagos')
 export class PagosController {
