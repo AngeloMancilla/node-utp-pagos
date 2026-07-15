@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import './infrastructure/observability/otel';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { HttpMetricsInterceptor } from './infrastructure/metrics/http-metrics.interceptor';
